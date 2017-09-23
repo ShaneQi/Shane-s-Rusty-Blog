@@ -13,11 +13,10 @@ You create an archive of your app regardless of the type of distribution method 
 Which certificate is needed here really depends on your project config: archive needs the type of  certificate you specify in `building settings` with respect to the `build configuration` specified in your schema.
 So yes, if you specify `Don't Code Sign` in building settings, archive won't do code-signing.
 
-![](/content/images/2017/04/Untitled.png)
+![img1](https://server.shaneqi.com/public/storage/JKEEKvAawxaW.png)
 
 ### Export 
 
 What kind of certificate is needed when exporting from archive to `ipa` is straight-forward: depending on what kind of export you are doing.
 
-
-![](/content/images/2017/04/Screen-Shot-2017-04-06-at-9.39.13-PM.png)
+![img2](https://server.shaneqi.com/public/storage/FIbAZtc4JYlW.png)

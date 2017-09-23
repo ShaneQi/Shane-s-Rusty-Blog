@@ -11,6 +11,6 @@ buildNumber=$(($buildNumber + 1))
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "$INFOPLIST_FILE"
 ```
 
-![](/content/images/2016/09/gzOsd.png)
+![img1](https://server.shaneqi.com/public/storage/7M771aLj3NGa.png)
 
 Don't forget to change the build number found under General in the Identity section to Integer.
