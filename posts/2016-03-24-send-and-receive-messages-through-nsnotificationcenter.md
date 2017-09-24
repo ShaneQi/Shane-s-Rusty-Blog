@@ -4,14 +4,33 @@ permalink: nsnotificationcenter-16-03-24
 date: 2016-03-24 22:43
 ---
 
-
 Some function in class A sends a notification named `ISentANotification`:
 
- class A { func sendNotification() { NSNotificationCenter.defaultCenter().postNotificationName("ISentANotification", object: self) } }
+```swift
+class A {
+	func sendNotification() {
+		NotificationCenter.default.post(name: Notification.Name(rawValue: "ISentANotification"), object: self)
+	}
+}
+```
 
 When class B receives the notification named `ISentANotification`, calls the function `IReceiveANotification`:
 
- class B: UIViewController { override func viewWillAppear(animated: Bool) { super.viewWillAppear(animated) NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(B.IReceiveANotification), name: "ISentANotification", object: nil) } override func viewWillDisappear(animated: Bool) { NSNotificationCenter.defaultCenter().removeObserver(self) } func IReceiveANotification() { print("I received a notification!") } }
+```swift
+class B: UIViewController {
 
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated);
+		NotificationCenter.default.addObserver(self, selector: #selector(B.IReceiveANotification), name: Notification.Name(rawValue: "ISentANotification"), object: nil)
+	}
 
+	override func viewWillDisappear(_ animated: Bool) {
+		NotificationCenter.default.removeObserver(self)
+	}
 
+	@objc func IReceiveANotification() {
+		print("I received a notification!")
+	}
+
+}
+```
