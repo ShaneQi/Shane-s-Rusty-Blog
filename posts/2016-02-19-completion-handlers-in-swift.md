@@ -12,12 +12,17 @@ If we want to do something only after a function is completed, we use completion
 
 # Declare:
 
- func foo(name :String, completion: ((result:String?) -> Void)) { // Do something. completion (result: "Hello, \(name)!") }
-
+```swift
+func foo(name :String, completion: ((result:String?) -> Void)) {
+	// Do something. 
+	completion (result: "Hello, \(name)!") 
+}
+```
 
 # Use:
 
- foo("Shane") { result in print("Got back: \(result)") }
-
-
-
+```swift
+foo("Shane") {
+	result in print("Got back: \(result)") 
+}
+```
