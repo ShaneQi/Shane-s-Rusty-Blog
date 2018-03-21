@@ -45,7 +45,7 @@ let date = dateFormatter.date(from: "2017-09-04 14:00:00")
 
 Then when I want to present the date to user, I just use whichever time zone I need to format the date:
 
-```
+```swift
 // `date` is from code above.
 let dateFormatter = DateFormatter()
 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
