@@ -72,6 +72,6 @@ let date = dateFormatter.date(from: dateString)
 
 ### Takeaways
 
-1. A timedate can't be defined without the timezone.
+1. A datetime can't be defined without the timezone.
 2. If the date string doesn't have a timezone in it, find it out and set it on the date formatter.
 3. If the date string has a timezone in it, make sure it's read by the date formatter.
