@@ -2,7 +2,7 @@
 title: Remember to Set `dateFormatter.locale` Properly For Fixed Format Date Formatting
 permalink: remember-to-set-dateFormatter-locale-properly-for-fixed-format-date-formatting
 
-date: 2019-09-16 13:25
+date: 2019-09-18 13:25
 ---
 
 > [The Documentation of NSDateFormatter](https://developer.apple.com/documentation/foundation/nsdateformatter)
@@ -24,7 +24,7 @@ __When we need to pay extra attention to is when we want to format dates to a fi
 
 For example, my app needs to send a time to the server and the server requires the time to be in 12 hour format ("05:32 PM"). The proper way to do this is:
 
-```
+```swift
 let dateFormatter = DateFormatter()
 dateFormatter.dateFormat = "hh:mm a"
 dateFormatter.locale = Locale(identifier: "en_US_POSIX") // IMPORTANT!
