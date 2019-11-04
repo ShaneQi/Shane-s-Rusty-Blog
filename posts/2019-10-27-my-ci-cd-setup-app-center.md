@@ -1,6 +1,6 @@
 ---
 title: My CI/CD Setup (App Center)
-permalink: my-ci-cd-setup-app-center
+permalink: my-ci-cd-setup-app-center-19-10-27
 date: 2019-10-27 20:59
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Remember to Set `dateFormatter.locale` Properly For Fixed Format Date Formatting
-permalink: remember-to-set-dateFormatter-locale-properly-for-fixed-format-date-formatting
+permalink: remember-to-set-dateFormatter-locale-properly-for-fixed-format-date-formatting-19-09-18
 
 date: 2019-09-18 13:25
 ---

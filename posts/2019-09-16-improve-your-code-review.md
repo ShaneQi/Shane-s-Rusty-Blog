@@ -1,6 +1,6 @@
 ---
 title: Improve Your Code Review
-permalink: improve-your-code-review
+permalink: improve-your-code-review-19-09-16
 date: 2019-09-16 17:18
 ---
 

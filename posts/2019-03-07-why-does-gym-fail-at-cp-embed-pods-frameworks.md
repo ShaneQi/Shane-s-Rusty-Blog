@@ -1,6 +1,6 @@
 ---
 title: Why does Gym Fail at `[CP] Embed Pods Frameworks`
-permalink: why-does-gym-fail-at-cp-embed-pods-frameworks
+permalink: why-does-gym-fail-at-cp-embed-pods-frameworks-19-03-07
 date: 2019-03-07 20:48
 ---
 
