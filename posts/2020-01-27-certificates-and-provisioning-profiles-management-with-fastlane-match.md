@@ -46,7 +46,9 @@ Ask the one of the certificates managers to update the provisioning profiles to 
 
 ##### (Certificates Managers Only) Updating provisioning profiles to include new devices
 
-`fastlane match development --force_for_new_devices` then enter the bundle id of the app when the prompt shows (don't forget the bundle id of any extensions the app has, e.g. share extension).
+1. Connect the devices to Mac and use Xcode to get the UUIDs of the devices.
+1. Login Apple developer certificates portal, and add the devices.
+1. `fastlane match development --force_for_new_devices` then enter the bundle id of the app when the prompt shows (don't forget the bundle id of any extensions the app has, e.g. share extension).
 
 ## Parameter Explanation
 
