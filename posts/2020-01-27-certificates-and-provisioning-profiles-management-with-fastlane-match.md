@@ -22,15 +22,15 @@ Passphrase: \<REDACTED\>
 
 ## Day to Day Usage Examples
 
-### Running an app on a real device
+##### Running an app on a real device
 
 `fastlane match development --readonly` then enter the bundle id of the app when the prompt shows (don't forget the bundle id of any extensions the app has, e.g. share extension).
 
-### Uploading a build to App Store Connect
+##### Uploading a build to App Store Connect
 
 `fastlane match appstore --readonly` then enter the bundle id of the app when the prompt shows (don't forget the bundle id of any extensions the app has, e.g. share extension).
 
-### Fails to download certificates or provisioning profiles
+##### Fails to download certificates or provisioning profiles
 
 Contact one of the certificates managers to check:
 
@@ -38,19 +38,19 @@ Contact one of the certificates managers to check:
 1. If don't exist, ask one of the certificates managers to create for you.
 1. If exist, check if certificate has expired and if the profiles are valid.
 
-### Running an app on new devices
+##### Running an app on new devices
 
 Ask the one of the certificates managers to update the provisioning profiles to include the new devices (documented below), then:
 
 `fastlane match development --readonly` then enter the bundle id of the app when the prompt shows (don't forget the bundle id of any extensions the app has, e.g. share extension), to download the updated provisioning profile.
 
-### (Certificates Managers Only) Updating provisioning profiles to include new devices
+##### (Certificates Managers Only) Updating provisioning profiles to include new devices
 
 `fastlane match development --force_for_new_devices` then enter the bundle id of the app when the prompt shows (don't forget the bundle id of any extensions the app has, e.g. share extension).
 
 ## Parameter Explanation
 
-### `development`/`appstore`/`adhoc`
+##### `development`/`appstore`/`adhoc`
 
 Indicating the provisioning profile type.
 
@@ -60,7 +60,7 @@ Indicating the provisioning profile type.
 
 `adhoc` is for exporting an app to .ipa file (the most common use case of adhoc is distributing testing build via Crashlytics Beta).
 
-### `--readonly`
+##### `--readonly`
 
 Indicating the operation only downloads certificates or provisioning profiles from the repo.
 
