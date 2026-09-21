@@ -8,14 +8,9 @@ on:
   workflow_dispatch:
 
 env:
-  # TODO: replace with your static-site builder image
-  BUILD_IMAGE: your-registry/your-builder-image:tag
-  # Host paths mounted into the container
+  BUILD_IMAGE: ghcr.io/shaneqi/rusty_blog:latest
   INPUT_DIR: .
   OUTPUT_DIR: dist
-  # Paths inside the container passed as CLI args to the builder
-  CONTAINER_INPUT: /input
-  CONTAINER_OUTPUT: /output
   CLOUDFLARE_PAGES_PROJECT_NAME: your-cloudflare-pages-project
 
 jobs:
@@ -24,21 +19,27 @@ jobs:
     permissions:
       contents: read
       deployments: write
+      packages: read
     name: Build and deploy
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build static site with Docker
         run: |
           set -euo pipefail
           mkdir -p "${OUTPUT_DIR}"
           docker run --rm \
-            -v "${PWD}/${INPUT_DIR}:${CONTAINER_INPUT}:ro" \
-            -v "${PWD}/${OUTPUT_DIR}:${CONTAINER_OUTPUT}" \
-            "${BUILD_IMAGE}" \
-            --input "${CONTAINER_INPUT}" \
-            --output "${CONTAINER_OUTPUT}"
+            -v "${PWD}/${INPUT_DIR}:/content:ro" \
+            -v "${PWD}/${OUTPUT_DIR}:/output" \
+            "${BUILD_IMAGE}"
 
       - name: Deploy to Cloudflare Pages
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
