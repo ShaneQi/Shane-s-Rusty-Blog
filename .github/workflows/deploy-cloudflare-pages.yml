@@ -1,0 +1,61 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+env:
+  # Prebuilt image that turns this repo's posts into a static site.
+  # Expected CLI: <image> <content_dir> <output_dir>
+  # Expected layout: content_dir/posts/*.md → output_dir/index.html (+ pages)
+  # Override with repository variable BUILD_IMAGE.
+  BUILD_IMAGE: ${{ vars.BUILD_IMAGE || 'ghcr.io/shaneqi/rusty_blog:latest' }}
+  OUTPUT_DIR: dist
+  # Override with repository variable CLOUDFLARE_PAGES_PROJECT_NAME.
+  CLOUDFLARE_PAGES_PROJECT_NAME: ${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME || 'shanes-rusty-blog' }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+      packages: read
+    name: Build and deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        if: startsWith(env.BUILD_IMAGE, 'ghcr.io/')
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build static site with Docker
+        run: |
+          set -euo pipefail
+          mkdir -p "${OUTPUT_DIR}"
+          # Mount only posts/ so the builder sees /content/posts without a .git
+          # tree (avoids generators that hard-reset the input repo).
+          docker run --rm \
+            -v "${PWD}/posts:/content/posts:ro" \
+            -v "${PWD}/${OUTPUT_DIR}:/output" \
+            "${BUILD_IMAGE}" \
+            /content /output
+          test -f "${OUTPUT_DIR}/index.html"
+          ls -la "${OUTPUT_DIR}"
+
+      - name: Deploy to Cloudflare Pages
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy ${{ env.OUTPUT_DIR }} --project-name=${{ env.CLOUDFLARE_PAGES_PROJECT_NAME }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
