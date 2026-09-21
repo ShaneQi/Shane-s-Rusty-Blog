@@ -8,14 +8,15 @@ on:
   workflow_dispatch:
 
 env:
-  # Prebuilt image that turns this repo's posts into a static site.
-  # Expected CLI: <image> <content_dir> <output_dir>
-  # Expected layout: content_dir/posts/*.md → output_dir/index.html (+ pages)
-  # Override with repository variable BUILD_IMAGE.
-  BUILD_IMAGE: ${{ vars.BUILD_IMAGE || 'ghcr.io/shaneqi/rusty_blog:latest' }}
+  # TODO: replace with your static-site builder image
+  BUILD_IMAGE: your-registry/your-builder-image:tag
+  # Host paths mounted into the container
+  INPUT_DIR: .
   OUTPUT_DIR: dist
-  # Override with repository variable CLOUDFLARE_PAGES_PROJECT_NAME.
-  CLOUDFLARE_PAGES_PROJECT_NAME: ${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME || 'shanes-rusty-blog' }}
+  # Paths inside the container passed as CLI args to the builder
+  CONTAINER_INPUT: /input
+  CONTAINER_OUTPUT: /output
+  CLOUDFLARE_PAGES_PROJECT_NAME: your-cloudflare-pages-project
 
 jobs:
   build-and-deploy:
@@ -23,33 +24,21 @@ jobs:
     permissions:
       contents: read
       deployments: write
-      packages: read
     name: Build and deploy
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Log in to GitHub Container Registry
-        if: startsWith(env.BUILD_IMAGE, 'ghcr.io/')
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build static site with Docker
         run: |
           set -euo pipefail
           mkdir -p "${OUTPUT_DIR}"
-          # Mount only posts/ so the builder sees /content/posts without a .git
-          # tree (avoids generators that hard-reset the input repo).
           docker run --rm \
-            -v "${PWD}/posts:/content/posts:ro" \
-            -v "${PWD}/${OUTPUT_DIR}:/output" \
+            -v "${PWD}/${INPUT_DIR}:${CONTAINER_INPUT}:ro" \
+            -v "${PWD}/${OUTPUT_DIR}:${CONTAINER_OUTPUT}" \
             "${BUILD_IMAGE}" \
-            /content /output
-          test -f "${OUTPUT_DIR}/index.html"
-          ls -la "${OUTPUT_DIR}"
+            --input "${CONTAINER_INPUT}" \
+            --output "${CONTAINER_OUTPUT}"
 
       - name: Deploy to Cloudflare Pages
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
