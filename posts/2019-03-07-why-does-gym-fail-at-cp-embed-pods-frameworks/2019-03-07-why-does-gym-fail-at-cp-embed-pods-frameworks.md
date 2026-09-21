@@ -20,7 +20,7 @@ At that moment, [Gym](https://docs.fastlane.tools/actions/gym/) invoked `codesig
 
 So if you were doing this on your local machine, you would see that macOS prompts for password to ask your consent to give out the cert and the key:
 
-![prompt-password-access-key](https://server.shaneqi.com/public/storage/0NMNEEg1Of1n.png)
+![prompt-password-access-key](./0NMNEEg1Of1n.png)
 
 But if it was the CI/CD machine that's running [Gym](https://docs.fastlane.tools/actions/gym/), it can't prompt an UI permission popup. Nor does `codesign` ask for the password in command line. So it failed.
 
@@ -45,13 +45,13 @@ More details: [security / codesign in Sierra: Keychain ignores access control se
 
 The answer is yes. [Match](https://docs.fastlane.tools/actions/match/) takes care of it:
 
-![keychain_importe](https://server.shaneqi.com/public/storage/YC3TQHlDGilb.png)
+![keychain_importe](./YC3TQHlDGilb.png)
 
 #### Why did [Gym](https://docs.fastlane.tools/actions/gym/) still fail if [Match](https://docs.fastlane.tools/actions/match/) handled it?
 
 It's probably because the machine has Sierra or newer OS, and you need to use `set-key-partition`), but [Match](https://docs.fastlane.tools/actions/match/) failed to set partition list.
 
-![keychain_importer_1](https://server.shaneqi.com/public/storage/7cyiPaDSKRyb.png)
+![keychain_importer_1](./7cyiPaDSKRyb.png)
 
 Looking at the [Fastlane](https://docs.fastlane.tools)'s source code, only if the cert importing succeeds will [Match](https://docs.fastlane.tools/actions/match/) set partition list. 
 

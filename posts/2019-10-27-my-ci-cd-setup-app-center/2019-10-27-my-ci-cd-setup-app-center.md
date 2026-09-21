@@ -4,7 +4,7 @@ permalink: my-ci-cd-setup-app-center-19-10-27
 date: 2019-10-27 20:59
 ---
 
-![app-center-CI-CD](https://server.shaneqi.com/public/storage/4ueMdgIecldg.png)
+![app-center-CI-CD](./4ueMdgIecldg.png)
 
 ## Roles:
 
