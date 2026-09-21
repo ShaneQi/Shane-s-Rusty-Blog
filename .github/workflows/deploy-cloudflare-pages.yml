@@ -11,7 +11,7 @@ env:
   BUILD_IMAGE: ghcr.io/shaneqi/rusty_blog:latest
   INPUT_DIR: .
   OUTPUT_DIR: dist
-  CLOUDFLARE_PAGES_PROJECT_NAME: your-cloudflare-pages-project
+  CLOUDFLARE_PAGES_PROJECT_NAME: rusty-blog
 
 jobs:
   build-and-deploy:
